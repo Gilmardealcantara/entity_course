@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace entity_course
 {
@@ -6,8 +9,18 @@ namespace entity_course
     {
         static void Main(string[] args)
         {
-            GravarUsandoAdoNet();
-            WriteUsingEntity();
+            // GravarUsandoAdoNet();
+            // WriteUsingEntity();
+            GetProducts();
+        }
+
+        private static void GetProducts()
+        {
+            using (var context = new StoreContext()){
+                IList<Product> products = context.Product.ToList();
+                string output = Newtonsoft.Json.JsonConvert.SerializeObject(products);
+                Console.WriteLine(output);
+            }
         }
 
         private static void WriteUsingEntity()
