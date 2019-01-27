@@ -7,6 +7,31 @@ namespace entity_course
         static void Main(string[] args)
         {
             GravarUsandoAdoNet();
+            WriteUsingEntity();
+        }
+
+        private static void WriteUsingEntity()
+        {
+            Product p1 = new Product();
+            p1.Name = "Harry Potter e a Ordem da Fênix";
+            p1.Category = "Livros";
+            p1.Price = 19.89;
+
+            Product p2 = new Product();
+            p2.Name = "Senhor dos Anéis 1";
+            p2.Category = "Livros";
+            p2.Price = 19.89;
+
+            Product p3 = new Product();
+            p3.Name = "O Monge e o Executivo";
+            p3.Category = "Livros";
+            p3.Price = 19.89;
+
+            using (var contex = new StoreContext())
+            {
+                contex.Product.AddRange(p1, p2, p3);
+                contex.SaveChanges();
+            }
         }
 
         private static void GravarUsandoAdoNet()
