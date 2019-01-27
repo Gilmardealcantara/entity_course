@@ -13,15 +13,29 @@ namespace entity_course
             // WriteUsingEntity();
             GetProducts();
             // DeleteProduct();
-            // GetProducts();
-            
+            UpdateProduct();
+            GetProducts();
+
+        }
+
+        private static void UpdateProduct()
+        {
+            using (var context = new StoreContext())
+            {
+                Product product = context.Product.First();
+                product.Name = product.Name  + " (Update)";
+                context.Product.Update(product);
+                context.SaveChanges();
+            }
         }
 
         private static void DeleteProduct()
         {
-            using(var context = new StoreContext()){
+            using (var context = new StoreContext())
+            {
                 IList<Product> products = context.Product.ToList();
-                foreach(var item in products){
+                foreach (var item in products)
+                {
                     context.Product.Remove(item);
                 }
                 context.SaveChanges();
@@ -30,11 +44,15 @@ namespace entity_course
 
         private static void GetProducts()
         {
-            using (var context = new StoreContext()){
+            using (var context = new StoreContext())
+            {
                 IList<Product> products = context.Product.ToList();
                 Console.WriteLine("Find {0} products.", products.Count);
-                string output = Newtonsoft.Json.JsonConvert.SerializeObject(products);
-                Console.WriteLine(output);
+                foreach (var item in products)
+                {
+                    string output = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+                    Console.WriteLine(output);
+                }
             }
         }
 
