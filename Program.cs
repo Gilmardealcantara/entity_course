@@ -12,12 +12,27 @@ namespace entity_course
             // GravarUsandoAdoNet();
             // WriteUsingEntity();
             GetProducts();
+            // DeleteProduct();
+            // GetProducts();
+            
+        }
+
+        private static void DeleteProduct()
+        {
+            using(var context = new StoreContext()){
+                IList<Product> products = context.Product.ToList();
+                foreach(var item in products){
+                    context.Product.Remove(item);
+                }
+                context.SaveChanges();
+            }
         }
 
         private static void GetProducts()
         {
             using (var context = new StoreContext()){
                 IList<Product> products = context.Product.ToList();
+                Console.WriteLine("Find {0} products.", products.Count);
                 string output = Newtonsoft.Json.JsonConvert.SerializeObject(products);
                 Console.WriteLine(output);
             }
