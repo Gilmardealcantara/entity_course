@@ -1,4 +1,5 @@
-﻿namespace entity_course
+﻿using Newtonsoft.Json.Linq;
+namespace entity_course
 {
     internal class Produto
     {
@@ -14,5 +15,9 @@
         public string Name { get; internal set; }
         public string Category { get; internal set; }
         public double Price { get; internal set; }
+
+        public override string ToString(){
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
     }
 }

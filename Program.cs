@@ -10,7 +10,7 @@ namespace entity_course
         static void Main(string[] args)
         {
             // GravarUsandoAdoNet();
-            // WriteUsingEntity();
+            WriteUsingEntity();
             GetProducts();
             // DeleteProduct();
             UpdateProduct();
@@ -50,8 +50,8 @@ namespace entity_course
                 Console.WriteLine("Find {0} products.", products.Count);
                 foreach (var item in products)
                 {
-                    string output = Newtonsoft.Json.JsonConvert.SerializeObject(item);
-                    Console.WriteLine(output);
+                    // string output = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+                    Console.WriteLine(item);
                 }
             }
         }
