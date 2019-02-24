@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
 namespace entity_course
@@ -9,13 +13,64 @@ namespace entity_course
     {
         static void Main(string[] args)
         {
+
+            var pascoaPromo = new Promotion();
+            pascoaPromo.Description= "Pomocao de Pascoa";
+            pascoaPromo.StartDate = DateTime.Now;
+            pascoaPromo.EndDate = DateTime.Now.AddMonths(3);
+            //pascoaPromo.Poducts.Add(new Product());
+            //pascoaPromo.Poducts.Add(new Product());
+            //pascoaPromo.Poducts.Add(new Product());
+            //pascoaPromo.Poducts.Add(new Product());
+
+            using(var context = new StoreContext()){
+                var serviceProvider = context.GetInfrastructure<IServiceProvider>();
+                var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+                loggerFactory.AddProvider(SqlLoggerProvider.Create());
+
+               
+            }
+        }
+
+        private void TestPurchase(){
+            var paoFrances = new Product();
+            paoFrances.Name = "Pão Doce";
+            paoFrances.UnityPrice = 0.40;
+            paoFrances.Unity = "Unidade";
+            paoFrances.Category = "Padaria";
+
+            var compra = new Purchase();
+            compra.Qnt = 6;
+            compra.Product = paoFrances;
+            compra.Price = paoFrances.UnityPrice * compra.Qnt;
+
+            using(var context = new StoreContext()){
+                var serviceProvider = context.GetInfrastructure<IServiceProvider>();
+                var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+                loggerFactory.AddProvider(SqlLoggerProvider.Create());
+
+                context.Purchase.Add(compra);
+                context.SaveChanges();
+                ExibeEntries(context.ChangeTracker.Entries());
+               
+            }
+        }
+
+        private static void ExibeEntries(IEnumerable<EntityEntry> entries)
+        {
+            foreach(var e in entries)
+            {
+                Console.WriteLine(e.Entity.ToString() + " - " + e.State);
+            }
+        }
+        
+        private void TesteProductDatabase(){
             // GravarUsandoAdoNet();
             WriteUsingEntity();
             GetProducts();
             // DeleteProduct();
             UpdateProduct();
             GetProducts();
-
         }
 
         private static void UpdateProduct()
@@ -61,17 +116,20 @@ namespace entity_course
             Product p1 = new Product();
             p1.Name = "Harry Potter e a Ordem da Fênix";
             p1.Category = "Livros";
-            p1.Price = 19.89;
+            p1.Unity = "Unity";
+            p1.UnityPrice = 19.89;
 
             Product p2 = new Product();
             p2.Name = "Senhor dos Anéis 1";
             p2.Category = "Livros";
-            p2.Price = 19.89;
+            p2.Unity = "Unity";
+            p2.UnityPrice = 19.89;
 
             Product p3 = new Product();
             p3.Name = "O Monge e o Executivo";
             p3.Category = "Livros";
-            p3.Price = 19.89;
+            p3.Unity = "Unity";
+            p3.UnityPrice = 19.89;
 
             using (var contex = new StoreContext())
             {

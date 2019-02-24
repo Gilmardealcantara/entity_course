@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 namespace entity_course
 {
     internal class Produto
@@ -9,12 +10,15 @@ namespace entity_course
         public double Preco { get; internal set; }
     }
 
-    internal class Product
+    public class Product
     {
         public int Id { get; internal set; }
         public string Name { get; internal set; }
         public string Category { get; internal set; }
-        public double Price { get; internal set; }
+        public double UnityPrice { get; internal set; }
+        public string Unity { get; internal set; }
+
+        public IList<PromotionProduct> Promotions { get; internal set; }
 
         public override string ToString(){
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
